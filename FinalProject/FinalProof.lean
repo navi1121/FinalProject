@@ -100,7 +100,7 @@ lemma seven_and_thirteen_are_coprime :
 
       7^12 ≡ 1 (mod 13).
 
-  This is the special Euler/Fermat fact that drives the induction.
+  This is the special Euler fact that drives the induction.
   Lean can verify this arithmetic computation directly.
 -/
 lemma seven_pow_twelve_mod_thirteen :
@@ -239,7 +239,7 @@ lemma power_successor_twelve_int (k : ℕ) : --integer
 
           7^(12(k+1)) ≡ 1 (mod 13).
 -/
-theorem seven_power_twelve_n_mod_thirteen ----main theorem
+theorem seven_power_twelve_n_mod_thirteen ----main theorem@
     (n : ℕ) :
     7 ^ (12 * n) ≡ 1 [MOD 13] := by
   induction n with
@@ -361,7 +361,7 @@ lemma divisibility_induction_step
 
   but written in divisibility language.
 -/
-theorem thirteen_divides_seven_power_twelve_n_minus_one
+theorem thirteen_divides_seven_power_twelve_n_minus_one ---divisibility version of main theorem@
     (n : ℕ) :
     13 ∣ ((7 : ℤ) ^ (12 * n) - 1) := by
   induction n with
@@ -382,7 +382,7 @@ theorem thirteen_divides_seven_power_twelve_n_minus_one
   This is another way to write divisibility by 13.
 -/
 
-
+--existence version of main theorem
 theorem seven_power_twelve_n_is_thirteen_times_something_plus_one
     (n : ℕ) :
     ∃ q : ℤ, (7 : ℤ) ^ (12 * n) = 13 * q + 1 := by
@@ -397,7 +397,7 @@ theorem seven_power_twelve_n_is_thirteen_times_something_plus_one
   -/
   obtain ⟨q, hq⟩ := h_div
   /-
-    The same q is the witness.
+    There exists some integer q that makes this true
   -/
   use q
   /-
