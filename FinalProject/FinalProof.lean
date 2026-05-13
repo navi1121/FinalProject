@@ -90,7 +90,7 @@ lemma thirteen_is_prime :
 lemma seven_and_thirteen_are_coprime :
     Nat.Coprime 7 13 := by
   calc
-    Nat.gcd 7 13
+    Nat.gcd 7 13 --coprime because gcd(7,13) = 1
         = 1 := by
           norm_num
 
@@ -107,7 +107,7 @@ lemma seven_pow_twelve_mod_thirteen :
     7 ^ 12 ≡ 1 [MOD 13] := by
   calc
     7 ^ 12
-        ≡ 1 [MOD 13] := by
+        ≡ 1 [MOD 13] := by --proving that the remainder of 7^12 is one when divided by 13
           norm_num
 
 
@@ -146,7 +146,7 @@ lemma exponent_successor_twelve (k : ℕ) :
         = 12 * (k + 1) := by
           rw [Nat.succ_eq_add_one] -- k+1 is equal to Nat.succ k
     _ = 12 * k + 12 := by
-          rw [mul_add]
+          rw [mul_add] --distributing 12
 
 
 /-
@@ -158,16 +158,16 @@ lemma exponent_successor_twelve (k : ℕ) :
 
       a^(r+s) = a^r * a^s.
 -/
-lemma power_successor_twelve_nat (k : ℕ) :
+lemma power_successor_twelve_nat (k : ℕ) :--natural numbers
     7 ^ (12 * Nat.succ k)
       =
     7 ^ (12 * k) * 7 ^ 12 := by
   calc
     7 ^ (12 * Nat.succ k)
         = 7 ^ (12 * k + 12) := by
-          rw [exponent_successor_twelve k]
+          rw [exponent_successor_twelve k] -- using previous lemma
     _ = 7 ^ (12 * k) * 7 ^ 12 := by
-          rw [pow_add]
+          rw [pow_add] -- multiplying powers with the same base
 
 
 /-
@@ -177,7 +177,7 @@ lemma power_successor_twelve_nat (k : ℕ) :
 
       13 ∣ ((7 : ℤ)^(12n) - 1).
 -/
-lemma power_successor_twelve_int (k : ℕ) :
+lemma power_successor_twelve_int (k : ℕ) : --integer
     (7 : ℤ) ^ (12 * Nat.succ k)
       =
     (7 : ℤ) ^ (12 * k) * (7 : ℤ) ^ 12 := by
@@ -246,13 +246,13 @@ theorem seven_power_twelve_n_mod_thirteen ----main theorem
   | zero =>
       norm_num
   | succ k IH =>
-      rw [power_successor_twelve_nat k]
+      rw [power_successor_twelve_nat k] --using previous lemma
       calc
         7 ^ (12 * k) * 7 ^ 12
             ≡ 1 * 1 [MOD 13] := by
               exact Nat.ModEq.mul IH seven_pow_twelve_mod_thirteen
         _ = 1 := by
-              norm_num
+              ring
 
 
 /-
