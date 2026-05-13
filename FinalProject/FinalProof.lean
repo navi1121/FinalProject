@@ -266,9 +266,6 @@ theorem seven_power_twelve_n_mod_thirteen ----main theorem
   The equivalent divisibility statement is
 
       13 ∣ 7^(12n) - 1.
-
-  We prove this version separately by induction because it gives the project
-  another useful Math 2001-style proof: a divisibility proof by induction.
 -/
 
 
@@ -323,29 +320,32 @@ lemma divisibility_induction_step
   /-
     First rewrite the power in the successor case.
   -/
-  rw [power_successor_twelve_int k]
+  rw [power_successor_twelve_int k] -- 12(k+1) = 12k + 12 here
   /-
     Rewrite the expression into a sum of two terms.
   -/
-  rw [algebra_rewrite_for_divisibility ((7 : ℤ) ^ (12 * k))]
+  rw [algebra_rewrite_for_divisibility ((7 : ℤ) ^ (12 * k))] -- x = 7 ^ (12k)
+  --(7^12k) * 7^12 - 1 = ((7^12k) - 1) * 7^12 + (7^12 - 1)
   /-
-    The first term is divisible by 13 by the induction hypothesis.
+    The first term is divisible by 13 by the inductive hypothesis.
   -/
-  have h_left :
+  have h_left : -- 13 | ((7^12k) - 1) * 7^12
       13 ∣ (((7 : ℤ) ^ (12 * k) - 1) * (7 : ℤ) ^ 12) := by
     exact thirteen_divides_mul_seven_pow_twelve
       (((7 : ℤ) ^ (12 * k)) - 1)
-      IH
+      IH -- 13 divides (7^(12k) - 1) by the induction hypothesis
   /-
     The second term is divisible by 13 because 7^12 ≡ 1 mod 13.
   -/
   have h_right :
-      13 ∣ ((7 : ℤ) ^ 12 - 1) := by
+      13 ∣ ((7 : ℤ) ^ 12 - 1) := by -- 13 divides (7^12 - 1) by the one-step lemma
     exact thirteen_divides_seven_pow_twelve_minus_one
   /-
     A divisor of each term divides their sum.
   -/
   exact dvd_add h_left h_right
+  -- dvd_add:
+  -- a divides b and a divides c implies a divides b + c (b = h_left, c = h_right)
 
 
 /-
@@ -412,7 +412,7 @@ theorem seven_power_twelve_n_is_thirteen_times_something_plus_one
         = ((7 : ℤ) ^ (12 * n) - 1) + 1 := by
           ring
     _ = 13 * q + 1 := by
-          rw [hq]
+          rw [hq] -- hq: 7^(12n) - 1 = 13q, subsitute
 
 
 /-
